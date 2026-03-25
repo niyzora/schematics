@@ -1,0 +1,109 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heloc-ranker
+  labels:
+    app: heloc-ranker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: heloc-ranker
+  template:
+    metadata:
+      labels:
+        app: heloc-ranker
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+        - name: ranker
+          image: heloc-ranker:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DATA_DIR
+              value: /app/data
+            - name: MODEL_PATH
+              value: /app/data/xgb.json
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://localhost:4317
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          volumeMounts:
+            - name: model-data
+              mountPath: /app/data
+              readOnly: true
+
+        - name: otel-collector
+          image: otel/opentelemetry-collector-contrib:0.96.0
+          args: ["--config=/etc/otel/config.yaml"]
+          ports:
+            - containerPort: 4317  # OTLP gRPC
+            - containerPort: 8888  # collector metrics
+          volumeMounts:
+            - name: otel-config
+              mountPath: /etc/otel
+
+      volumes:
+        - name: model-data
+          persistentVolumeClaim:
+            claimName: heloc-ranker-data
+        - name: otel-config
+          configMap:
+            name: otel-collector-config
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: otel-collector-config
+data:
+  config.yaml: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+
+    processors:
+      batch:
+        timeout: 5s
+        send_batch_size: 256
+
+    exporters:
+      prometheus:
+        endpoint: 0.0.0.0:8889
+        namespace: heloc_ranker
+      logging:
+        loglevel: warn
+
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: [batch]
+          exporters: [logging]
+        metrics:
+          receivers: [otlp]
+          processors: [batch]
+          exporters: [prometheus]

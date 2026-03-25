@@ -1,0 +1,18 @@
+{
+  "facebook": {
+    "traffic_ctr": 0.22745927691448728,
+    "traffic_ev": 5.775785159174629
+  },
+  "google": {
+    "traffic_ctr": 0.24163266365273686,
+    "traffic_ev": 3.5398405764920615
+  },
+  "organic": {
+    "traffic_ctr": 0.022802570772924198,
+    "traffic_ev": 0.6039423744714494
+  },
+  "tiktok": {
+    "traffic_ctr": 0.24511982769112697,
+    "traffic_ev": 5.756530419996199
+  }
+}

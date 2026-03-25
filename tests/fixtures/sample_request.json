@@ -1,0 +1,20 @@
+{
+  "session": {
+    "traffic_source": "google",
+    "device_type": "mobile",
+    "credit_score_rate": "Good",
+    "annual_income": "$75K–$100K",
+    "credit_line": "$100,000-$200,000",
+    "property_value": "$200,000 - $400,000",
+    "property_type": "Single-Family Home",
+    "property_use": "Primary Residence",
+    "currently_have_mortgage": "$100K-$250K",
+    "military_veteran": "No",
+    "loan_primary_purpose": "Debt Consolidation"
+  },
+  "offers": [
+    {"brand": "achieve"},
+    {"brand": "figure"},
+    {"brand": "lendingtree"}
+  ]
+}

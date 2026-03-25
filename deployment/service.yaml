@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: heloc-ranker
+  labels:
+    app: heloc-ranker
+spec:
+  type: ClusterIP
+  selector:
+    app: heloc-ranker
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8000
+    - name: metrics
+      port: 9090
+      targetPort: 8000
