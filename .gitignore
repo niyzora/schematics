@@ -4,8 +4,8 @@ __pycache__/
 .pytest_casche/
 
 # Virtual environments
-.schematics/
-.catboost_info/
+schematics/
+catboost_info/
 
 # Jupyter checkpoints
 .ipynb_checkpoints/
