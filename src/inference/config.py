@@ -1,6 +1,6 @@
 """
 Feature engineering configuration.
-All mappings are aligned with schematics_eda.ipynb (cells 33, 35, 119-122, 134).
+All mappings are aligned with the training notebook.
 """
 
 FEATURE_COLS = [
@@ -19,7 +19,7 @@ FEATURE_COLS = [
     "property_use_Rental Property", "property_use_Secondary/Vacation Home",
 ]
 
-# --- Ordinal encodings (notebook cell 33) ---
+# --- Ordinal encodings ---
 
 ANNUAL_INCOME_MAP = {
     "Less than $50K": 1,
@@ -58,7 +58,6 @@ PROPERTY_VALUE_MAP = {
     "Over $1M": 8,
 }
 
-# notebook cell 35
 MORTGAGE_MAP = {
     "No": 1,
     "Under $50K": 2,

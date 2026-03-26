@@ -1,11 +1,11 @@
 # HELOC Offer Ranking Service
 
-Home assignment: prioritize HELOC (Home Equity Line of Credit) offers for users using 
+Home assignment: prioritize HELOC (Home Equity Line of Credit) offers for users using. 
 
 ## Project Structure
 
 ```
-schematics_eda.ipynb       — EDA + Feature Engineering + Model training
+schematics_eda.ipynb       — MAIN FILE: EDA + Feature Engineering + Model training
 src/                       — FastAPI ranking service
   main.py                  — App entrypoint, OTEL/Prometheus setup
   routes.py                — POST /rank, GET /health, GET /metrics
@@ -16,9 +16,9 @@ src/                       — FastAPI ranking service
     model.py               — XGB model wrapper
 deployment/
   Dockerfile
-  deployment.yaml          — K8s deployment with OTEL collector sidecar
+  deployment.yaml          — K8s deployment 
   service.yaml             — K8s service
-  hpa.yaml                 — Horizontal Pod Autoscaler
+  hpa.yaml                 — Horizontal Pod Autoscaler for autoscaling
 tests/
   test_preprocessor.py     — Feature engineering unit tests
   test_predictions.py      — Model output validation
@@ -50,7 +50,7 @@ Final tuned XGboost ranker trained with ndcg objective. Tried both pairwise and 
 
 Relevance labels (final): 1 if clicked and 1+log1p(payouts) if converted, that helped to take into account both click and payout.
  
-At inference, position features are fixed to 1 (deconfounded) as one method of coping with position bias (we trained using it). However in theory different methods could be explored like position-bias aware learning framework.
+At inference, position features are fixed to 1 (deconfounded) as one method of coping with position bias (we trained using it). However in theory different methods could be explored like Position-bias aware learning framework, Inverse Propensity Weights etc.
 
 ## Inference Pipeline
 
